@@ -23,7 +23,7 @@ namespace app.Models
         public int winsSolo {get;set;}= 0;
         public int losesSolo {get;set;}= 0;
 
-        public required List<Match> matchList {get; set;}
+        public required List<string> matchList {get; set;}
     
     }   
 }

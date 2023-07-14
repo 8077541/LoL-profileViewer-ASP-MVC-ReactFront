@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using app.services.MatchService;
 
 namespace app.services.SummonerService
 {
@@ -15,8 +16,8 @@ namespace app.services.SummonerService
 
 
         public async Task<ActionResult<Summoner>> GetSingle(string id, string region){
-                    Console.WriteLine(region[0]);
-                    var response = await _httpClient.GetAsync($"https://{region}1.api.riotgames.com/lol/summoner/v4/summoners/by-name/{id}?api_key=RGAPI-0bd078b2-eb31-4e10-b823-3bb542e2435e");
+
+                    var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{id}?api_key=RGAPI-c7b408e7-df3a-4990-92e5-bb23227e6bbd");
                     if(response.StatusCode == HttpStatusCode.NotFound){
                         throw new Exception("Summoner not found");
                     }
@@ -24,7 +25,7 @@ namespace app.services.SummonerService
                     var summoner = JsonConvert.DeserializeObject<Summoner>(json);
 
 
-                    var response2 = await _httpClient.GetAsync($"https://{region}1.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner.id}?api_key=RGAPI-0bd078b2-eb31-4e10-b823-3bb542e2435e");
+                    var response2 = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner.id}?api_key=RGAPI-c7b408e7-df3a-4990-92e5-bb23227e6bbd");
                     if(response2.StatusCode == HttpStatusCode.NotFound){
                         throw new Exception("Summoner not found");
                     
@@ -52,27 +53,15 @@ namespace app.services.SummonerService
                     }
 
                     
-                    var response3 = await _httpClient.GetAsync($"https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summoner.puuid}/ids?start=0&count=10&api_key=RGAPI-0bd078b2-eb31-4e10-b823-3bb542e2435e");
+                    var response3 = await _httpClient.GetAsync($"https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summoner.puuid}/ids?start=0&count=10&api_key=RGAPI-c7b408e7-df3a-4990-92e5-bb23227e6bbd");
                     if(response3.StatusCode == HttpStatusCode.NotFound){
                         throw new Exception("Summoner not found");
                     }
                     var json3 = await response3.Content.ReadAsStringAsync();
 
                     var matchList = JsonConvert.DeserializeObject<List<string>>(json3);
-                    var gameList = new List<Match>();
-                    foreach(var match in matchList){
-                        var response4 = await _httpClient.GetAsync($"https://europe.api.riotgames.com/lol/match/v5/matches/{match}?api_key=RGAPI-0bd078b2-eb31-4e10-b823-3bb542e2435e");
-                           if(response4.StatusCode == HttpStatusCode.NotFound){
-                        throw new Exception("Summoner not found");
-         
 
-                    }   
-                      var json4 = await response4.Content.ReadAsStringAsync();
-                    var  game = JsonConvert.DeserializeObject<Match>(json4);
-
-                        gameList.Add(game);
-                    }
-                    summoner.matchList = gameList;
+                    summoner.matchList = matchList;
                     return summoner;
                 
                 }

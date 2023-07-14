@@ -16,7 +16,7 @@ namespace app.Controllers
     public class SummonerController : ControllerBase
 
     {
-        private readonly HttpClient _httpClient = new HttpClient();
+
         private readonly ISummonerService _summonerService;
         public SummonerController(ISummonerService summonerService)
         {
