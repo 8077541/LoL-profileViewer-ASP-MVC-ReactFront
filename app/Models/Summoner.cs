@@ -2,10 +2,12 @@ namespace app.Models
 {
     public class Summoner{
         public int id {get; set;}
-        public string name {get; set;}
-        public string region {get;set;}
-        public ICollection<Game> Games{get; set;}
+        public string name {get; set;} = "dummy";
+        public string region {get;set;} = "eune";
+        public int level { get; set; } = 1;
+        public int profileIconId { get; set; } = 1;
 
-        public bool isClaimed{get;set;}
+
+
     }
 }
