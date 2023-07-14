@@ -2,33 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+
 
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using app.services.SummonerService;
 
 namespace app.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class SummonerController : ControllerBase
-    {
-        private static List<Summoner> dummies = new List<Summoner>{
-            new Summoner(),
-            new Summoner {id = 1, name ="ivy2"}
-        };
-        [HttpGet("GetAll")]
-        public ActionResult<List<Summoner>> Get()
-        {
-            return Ok(dummies);
-        }
-        [HttpGet("{id}")]
-        public ActionResult<Summoner> GetSingle(int id){   
-            return Ok(dummies.FirstOrDefault(x => x.id == id));
 
-        }
-         [HttpPost]
-        public ActionResult<List<Summoner>> AddSummoner(Summoner newSummoner){
-            dummies.Add(newSummoner);
-            return Ok(dummies);
-        }
+    {
+        private readonly HttpClient _httpClient = new HttpClient();
+        private readonly ISummonerService _summonerService;
+        public SummonerController(ISummonerService summonerService)
+        {
+            _summonerService = summonerService;
+        }       
+
+        [HttpGet("{region}/{id}")]
+            public async Task<ActionResult<Summoner>> GetSingle(string id, string region){
+               return Ok(await _summonerService.GetSingle(id, region));
+            
+            }
+
 }
 }
