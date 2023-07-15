@@ -3,9 +3,10 @@
 namespace app.Models
 {
 
-    public class Ban{
+    public class Ban
+    {
 
-public int championId{get;set;}
-public int pickTurn{get;set;}
+        public int championId { get; set; }
+        public int pickTurn { get; set; }
     }
 }

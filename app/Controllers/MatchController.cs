@@ -17,18 +17,20 @@ namespace app.Controllers
         public MatchController(IMatchService matchService)
         {
             _matchService = matchService;
-        }       
+        }
 
         [HttpGet("/MatchDetails")]
-            public async Task<ActionResult<Match>> getMatchDetails(string matchId){
-               return Ok(await _matchService.getMatchDetails(matchId));
-            
-            }
-            
+        public async Task<ActionResult<Match>> getMatchDetails(string matchId)
+        {
+            return Ok(await _matchService.getMatchDetails(matchId));
+
+        }
+
         [HttpGet("/Match")]
-            public async Task<ActionResult<List<string>>> getMatchId(string puuid, string region, string queueId="", string count="20"){
-               return Ok(await _matchService.getMatchId(puuid,region,queueId,count));
-            
-            }
+        public async Task<ActionResult<List<string>>> getMatchId(string puuid, string region, string queueId = "", string count = "20")
+        {
+            return Ok(await _matchService.getMatchId(puuid, region, queueId, count));
+
+        }
     }
 }

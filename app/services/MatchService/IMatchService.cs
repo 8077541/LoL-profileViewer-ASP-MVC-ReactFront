@@ -8,7 +8,7 @@ namespace app.services.MatchService
 {
     public interface IMatchService
     {
-          Task<ActionResult<Match>> getMatchDetails(string matchId);
-          Task<List<string>> getMatchId(string puuid, string region, string queueId="", string count="20");
+        Task<ActionResult<Match>> getMatchDetails(string matchId);
+        Task<List<string>> getMatchId(string puuid, string region, string queueId = "", string count = "20");
     }
 }

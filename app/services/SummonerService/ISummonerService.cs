@@ -9,6 +9,6 @@ namespace app.services.SummonerService
     public interface ISummonerService
     {
         Task<ActionResult<Summoner>> GetSingle(string id, string region);
-    
+
     }
 }
