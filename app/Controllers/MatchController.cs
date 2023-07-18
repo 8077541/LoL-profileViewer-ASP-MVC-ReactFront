@@ -27,9 +27,9 @@ namespace app.Controllers
         }
 
         [HttpGet("/Match")]
-        public async Task<ActionResult<List<string>>> getMatchId(string puuid, string region, string queueId = "", string count = "20")
+        public async Task<ActionResult<List<string>>> getMatchId(string puuid, string region, string queueId = "", string countStart = "0", string countEnd = "20", string startTime = "", string endTime = "")
         {
-            return Ok(await _matchService.getMatchId(puuid, region, queueId, count));
+            return Ok(await _matchService.getMatchId(puuid, region, queueId, countStart, countEnd, startTime, endTime));
 
         }
     }

@@ -9,6 +9,7 @@ namespace app.services.SummonerService
     public interface ISummonerService
     {
         Task<ActionResult<Summoner>> GetSingle(string id, string region);
+        Task<ActionResult<List<string>>> getMostPlayed(string puuid, string region);
 
     }
 }

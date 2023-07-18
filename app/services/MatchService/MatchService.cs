@@ -30,7 +30,7 @@ namespace app.services.MatchService
             }
 
 
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}?api_key=RGAPI-a891aa1a-15d7-452e-bf1b-4f3105337d37");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}?api_key=RGAPI-26d18298-c4ae-4dee-a896-050212adb0d7");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
@@ -44,9 +44,9 @@ namespace app.services.MatchService
             return game;
         }
 
-        public async Task<List<string>> getMatchId(string puuid, string region, string queueId = "", string count = "20")
+        public async Task<List<string>> getMatchId(string puuid, string region, string queueId = "", string countStart = "0", string countEnd = "20", string startTime = "", string endTime = "")
         {
-            //queue id 420 soloq
+            //queue id 420 soloq 440flexq
             //2ZtXknMv0eBkiwTRBOFOiMFf2sPSx3xz2dgf0YdM6OoOi19R7x1jn2dG6AcaD4DStPtJ1Hlg7xli0A
             if (region == "euw1" || region == "eun1")
             {
@@ -62,14 +62,15 @@ namespace app.services.MatchService
             }
             if (queueId != "")
             {
-                queueId = $"&queue={queueId}&";
+                queueId = $"queue={queueId}&";
             }
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?{queueId}start=0&count={count}&api_key=RGAPI-a891aa1a-15d7-452e-bf1b-4f3105337d37");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?{"startTime=" + startTime + "&"}{"endTime=" + endTime + "&"}{queueId}start=0&count={countEnd}&api_key=RGAPI-26d18298-c4ae-4dee-a896-050212adb0d7");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
             }
             var json = await response.Content.ReadAsStringAsync();
+
             var matchList = JsonConvert.DeserializeObject<List<string>>(json);
 
             return matchList;

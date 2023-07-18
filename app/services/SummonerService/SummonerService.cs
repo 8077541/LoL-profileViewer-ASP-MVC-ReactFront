@@ -19,10 +19,64 @@ namespace app.services.SummonerService
     {
         private readonly HttpClient _httpClient = new HttpClient();
 
+        public async Task<ActionResult<List<string>>> getMostPlayed(string puuid, string region)
+        {
+
+            DateTime currentDate = DateTime.Now;
+            TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+            long secondsSinceEpoch = (long)t.TotalSeconds;
+            string seasonStart = "1673913600";
+
+
+            IMatchService _matchService = new MatchService.MatchService();
+
+
+
+            int counter = 80;
+            while (counter == 80)
+            {
+                var res = await _matchService.getMatchId(puuid, region, "420", "0", "80", seasonStart, secondsSinceEpoch.ToString());
+                foreach (var match in res)
+                {
+                    ActionResult<Match> matchDetails = await _matchService.getMatchDetails(match);
+
+                    foreach (var player in matchDetails.Value.info.participants)
+                    {
+                        if (player.puuid == puuid)
+                        {
+
+                            Console.WriteLine($"[{player.summonerName}] {player.championName} KdA: {player.kills} / {player.deaths} / {player.assists}");
+                            continue;
+                        }
+
+
+
+                    }
+                    counter--;
+                    secondsSinceEpoch = matchDetails.Value.info.gameEndTimestamp / 1000;
+                }
+                if (counter == 0)
+                {
+                    counter = 80;
+
+                }
+                else break;
+
+                Thread.Sleep(120000);
+
+            }
+
+
+
+            var list = new List<string>();
+            return list;
+
+
+        }
         public async Task<ActionResult<Summoner>> GetSingle(string id, string region)
         {
 
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{id}?api_key=RGAPI-a891aa1a-15d7-452e-bf1b-4f3105337d37");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{id}?api_key=RGAPI-26d18298-c4ae-4dee-a896-050212adb0d7");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
@@ -31,7 +85,7 @@ namespace app.services.SummonerService
             var summoner = JsonConvert.DeserializeObject<Summoner>(json);
 
 
-            var response2 = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner.id}?api_key=RGAPI-a891aa1a-15d7-452e-bf1b-4f3105337d37");
+            var response2 = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner.id}?api_key=RGAPI-26d18298-c4ae-4dee-a896-050212adb0d7");
             if (response2.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
