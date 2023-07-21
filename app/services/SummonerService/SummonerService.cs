@@ -76,7 +76,7 @@ namespace app.services.SummonerService
         public async Task<ActionResult<Summoner>> GetSingle(string id, string region)
         {
 
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{id}?api_key=RGAPI-26d18298-c4ae-4dee-a896-050212adb0d7");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{id}?api_key=RGAPI-fb5f0ef8-7676-4530-b8bc-4055c9284e4a");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
@@ -85,7 +85,7 @@ namespace app.services.SummonerService
             var summoner = JsonConvert.DeserializeObject<Summoner>(json);
 
 
-            var response2 = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner.id}?api_key=RGAPI-26d18298-c4ae-4dee-a896-050212adb0d7");
+            var response2 = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner.id}?api_key=RGAPI-fb5f0ef8-7676-4530-b8bc-4055c9284e4a");
             if (response2.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");

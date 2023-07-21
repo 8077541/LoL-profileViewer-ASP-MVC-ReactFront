@@ -1,0 +1,71 @@
+#main {
+  background-color: rgb(17, 11, 36);
+  margin: auto;
+  width: 80%;
+
+  padding: 10px;
+}
+#firstBox {
+  display: flex;
+  background-color: rgb(25, 16, 56);
+  justify-content: space-around;
+}
+#summonerIconAndLevelBox {
+  margin: 1em;
+  max-width: 100px;
+}
+#summonerIcon {
+  width: 100px;
+  z-index: -1;
+}
+#summonerLevel {
+  font-size: medium;
+  text-align: center;
+  margin: 0;
+}
+#summonerName {
+  margin-left: 1em;
+  font-size: x-large;
+  width: 13%;
+}
+#soloq img {
+  max-width: 15em;
+  margin: 0;
+}
+#soloq {
+  margin: auto;
+  text-align: center;
+  font-size: small;
+  display: inline-flex;
+}
+#flexq {
+  margin: auto;
+  text-align: center;
+  font-size: small;
+}
+#flexq img {
+  max-width: 8em;
+  margin: 0;
+}
+#soloqLabels {
+  top: 50%;
+}
+
+#soloq h2 {
+  color: rgb(110, 102, 233);
+}
+#flexq h2 {
+  color: rgb(193, 101, 236);
+}
+#soloqLabels {
+  margin: 1em;
+}
+#queueType {
+  color: rgb(110, 102, 233);
+}
+#matchHistory {
+  background-color: rgb(51, 45, 122);
+  margin: auto;
+  width: 70%;
+  padding: 10px;
+}

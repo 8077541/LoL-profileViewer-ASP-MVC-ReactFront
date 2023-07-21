@@ -47,13 +47,13 @@ const Home = () => {
       </form>
       <div id="regionOptions">
         <button id="euneButton" name="#0077FF" onClick={changeRegion}>
-          EUNE
+          EUN1
         </button>
         <button id="euwButton" name="#090CDA" onClick={changeRegion}>
           EUW1
         </button>
         <button id="naButton" name="#AF2A56" onClick={changeRegion}>
-          NA
+          NA1
         </button>
         <button id="krButton" name="#DA0909" onClick={changeRegion}>
           KR
