@@ -6,8 +6,8 @@ namespace app.Models
         public string summonerId { get; set; } = "dummy";
         public string summonerName { get; set; } = "dummy";
         public string queueType { get; set; } = "dummy";
-        public string tier { get; set; } = "dummy";
-        public string rank { get; set; } = "dummy";
+        public string tier { get; set; } = "unranked";
+        public string rank { get; set; } = " ";
         public int leaguePoints { get; set; } = 0;
         public int wins { get; set; } = 0;
         public int losses { get; set; } = 0;

@@ -19,13 +19,15 @@ namespace app.services.SummonerService
     {
         private readonly HttpClient _httpClient = new HttpClient();
 
+
+        //WIP FUNCTION TO CALCULATE MOST PLAYED CHARACTERS 
         public async Task<ActionResult<List<string>>> getMostPlayed(string puuid, string region)
         {
 
             DateTime currentDate = DateTime.Now;
             TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
             long secondsSinceEpoch = (long)t.TotalSeconds;
-            string seasonStart = "1673913600";
+            string seasonStart = "1689724800";
 
 
             IMatchService _matchService = new MatchService.MatchService();
@@ -62,6 +64,7 @@ namespace app.services.SummonerService
                 }
                 else break;
 
+                //API RATE LIMIT = 100 REQUEST EVERY TWO MINUTES, WILL GET RID OF THIS ONCE IM DONE WITH THE APPLICATION AND REGISTER IT OFFICIALLY.
                 Thread.Sleep(120000);
 
             }
@@ -73,10 +76,12 @@ namespace app.services.SummonerService
 
 
         }
+
+        //GENERIC GET REQUEST TO THEIR ENDPOINT. TWO CALLS IN ONE FUNCTION SINCE I WILL NEVER USE THIS DATA SEPARATLY UNLIKE GET MATCHES FUNCTION.
         public async Task<ActionResult<Summoner>> GetSingle(string id, string region)
         {
 
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{id}?api_key=RGAPI-fb5f0ef8-7676-4530-b8bc-4055c9284e4a");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{id}?api_key=RGAPI-1c66020c-0064-4301-bb47-38c49a5b6fcb");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
@@ -85,7 +90,7 @@ namespace app.services.SummonerService
             var summoner = JsonConvert.DeserializeObject<Summoner>(json);
 
 
-            var response2 = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner.id}?api_key=RGAPI-fb5f0ef8-7676-4530-b8bc-4055c9284e4a");
+            var response2 = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner.id}?api_key=RGAPI-1c66020c-0064-4301-bb47-38c49a5b6fcb");
             if (response2.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
@@ -93,6 +98,12 @@ namespace app.services.SummonerService
             }
             var json2 = await response2.Content.ReadAsStringAsync();
             var summoner2 = JsonConvert.DeserializeObject<List<SummonerRank>>(json2);
+
+            IMatchService _matchService = new MatchService.MatchService();
+            List<string> res = await _matchService.getMatchId(summoner.puuid, region);
+
+            summoner.matchList = res;
+
             if (summoner2.Count == 2)
             {
                 summoner.tierFlex = summoner2[0].tier;
@@ -116,10 +127,6 @@ namespace app.services.SummonerService
                 summoner.lpSolo = summoner2[0].leaguePoints;
             }
 
-            IMatchService _matchService = new MatchService.MatchService();
-            var res = await _matchService.getMatchId(summoner.puuid, region);
-
-            summoner.matchList = res;
 
             return summoner;
 
