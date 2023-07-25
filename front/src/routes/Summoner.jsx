@@ -132,6 +132,7 @@ const Summoner = () => {
           </div>
         </div>
       </div>
+      {/* map through playerData.value.matchList and pass every id to Match component in order to query for details etc. and and return in here  */}
     </div>
   );
 };
