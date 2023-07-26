@@ -56,7 +56,7 @@ const Summoner = () => {
           <div id="summonerIconAndLevelBox">
             <img
               id="summonerIcon"
-              src={`http://ddragon.leagueoflegends.com/cdn/13.11.1/img/profileicon/${playerData.value.profileIconId}.png`}
+              src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/profileicon/${playerData.value.profileIconId}.png`}
               alt="profileIcon"
             ></img>
             <h1 id="summonerLevel">{playerData.value.summonerLevel} </h1>
@@ -132,7 +132,14 @@ const Summoner = () => {
           </div>
         </div>
       </div>
-      {/* map through playerData.value.matchList and pass every id to Match component in order to query for details etc. and and return in here  */}
+      {/* TODO: map through playerData.value.matchList and pass every id to Match component in order to query for details etc. and and return in here  */}
+      <div>
+        {playerData.value.matchList.map((match) => {
+          return (
+            <Match matchId={match} mainSummonerName={playerData.value.name} />
+          );
+        })}
+      </div>
     </div>
   );
 };
