@@ -1,0 +1,14 @@
+#match {
+  max-width: 60%;
+  display: flex;
+  background-color: (51, 45, 122);
+}
+.summonerSpell {
+  max-width: 32px;
+  max-height: 32px;
+}
+#mainCharacterPortrait {
+  border-radius: 25px;
+  max-width: 64px;
+  max-height: 64px;
+}

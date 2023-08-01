@@ -131,15 +131,19 @@ const Summoner = () => {
             )}
           </div>
         </div>
+        <div>
+          {playerData.value.matchList.map((match) => {
+            return (
+              <Match
+                key={match}
+                matchId={match}
+                mainSummonerName={playerData.value.name}
+              />
+            );
+          })}
+        </div>
       </div>
       {/* TODO: map through playerData.value.matchList and pass every id to Match component in order to query for details etc. and and return in here  */}
-      <div>
-        {playerData.value.matchList.map((match) => {
-          return (
-            <Match matchId={match} mainSummonerName={playerData.value.name} />
-          );
-        })}
-      </div>
     </div>
   );
 };
