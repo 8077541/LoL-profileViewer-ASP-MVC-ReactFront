@@ -7,7 +7,7 @@ const Match = ({ matchId, mainSummonerName }) => {
   const [matchDetails, setMatchDetails] = useState(null);
   const [summoner, setSummoner] = useState(null);
   const [runes, setRunes] = useState(null);
-
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   function gameMode(id) {
     switch (id) {
       case 400:
@@ -73,17 +73,30 @@ const Match = ({ matchId, mainSummonerName }) => {
     }
   }
   function mainSummoner(arr) {
+    console.log(runes);
     for (let i of arr) {
+      i.runesMain = runeRenderMain([
+        i.perks.styles[0].style,
+        i.perks.styles[0].selections[0].perk,
+        i.perks.styles[0].selections[1].perk,
+        i.perks.styles[0].selections[2].perk,
+        i.perks.styles[0].selections[3].perk,
+      ]);
+      i.runesSub = runeRenderSub([
+        i.perks.styles[1].style,
+        i.perks.styles[1].selections[0].perk,
+        i.perks.styles[1].selections[1].perk,
+      ]);
       if (mainSummonerName === i.summonerName) {
         setSummoner(i);
         console.log(i);
-        break;
       }
     }
   }
   function runeRenderMain(id) {
     let response = [];
     let i = 0;
+    console.log(runes);
     for (let tree of runes) {
       if (id[i] == tree.id) {
         response.push(tree);
@@ -102,7 +115,25 @@ const Match = ({ matchId, mainSummonerName }) => {
     }
     return response;
   }
-  const testValues = [8000, 8010, 9111, 9104, 8299];
+  function runeRenderSub(id) {
+    let response = [];
+
+    for (let tree of runes) {
+      if (id[0] == tree.id) {
+        response.push(tree);
+
+        for (const slot of tree.slots) {
+          for (const rune of slot.runes) {
+            if (id[1] == rune.id || id[2] == rune.id) {
+              response.push(rune);
+            }
+          }
+        }
+        break;
+      }
+    }
+    return response;
+  }
   useEffect(() => {
     const load = async () => {
       setLoading(true);
@@ -117,14 +148,13 @@ const Match = ({ matchId, mainSummonerName }) => {
       const data = await response.json();
       const data2 = await response2.json();
 
-      setMatchDetails(data);
       setRunes(data2);
-      setLoading(false);
+      setMatchDetails(data);
 
+      await sleep(5000);
       mainSummoner(data.value.info.participants);
-      console.log(matchDetails);
-      console.log(runes);
-      console.log(runeRenderMain(testValues));
+
+      setLoading(false);
     };
     load();
   }, []);
@@ -183,6 +213,60 @@ const Match = ({ matchId, mainSummonerName }) => {
           ? summoner.kills + summoner.assists
           : ((summoner.kills + summoner.assists) / summoner.deaths).toFixed(2)}
       </h2>
+      {summoner.runesMain[0] ? (
+        <div>
+          <img
+            id="keystoneMain"
+            alt="Summoner's keystone rune"
+            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[0].icon}`}
+            title={summoner.runesMain[0].key}
+          ></img>
+          <img
+            id="keystoneMain"
+            alt="Summoner's keystone rune"
+            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[1].icon}`}
+            title={summoner.runesMain[1].longDesc}
+          ></img>
+          <img
+            id="keystoneMain"
+            alt="Summoner's keystone rune"
+            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[2].icon}`}
+            title={summoner.runesMain[2].longDesc}
+          ></img>
+          <img
+            id="keystoneMain"
+            alt="Summoner's keystone rune"
+            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[3].icon}`}
+            title={summoner.runesMain[3].longDesc}
+          ></img>
+          <img
+            id="keystoneMain"
+            alt="Summoner's keystone rune"
+            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[4].icon}`}
+            title={summoner.runesMain[4].longDesc}
+          ></img>
+          <img
+            id="keystoneMain"
+            alt="Summoner's keystone rune"
+            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[0].icon}`}
+            title={summoner.runesSub[0].key}
+          ></img>
+          <img
+            id="keystoneMain"
+            alt="Summoner's keystone rune"
+            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[1].icon}`}
+            title={summoner.runesSub[1].longDesc}
+          ></img>
+          <img
+            id="keystoneMain"
+            alt="Summoner's keystone rune"
+            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[2].icon}`}
+            title={summoner.runesSub[2].longDesc}
+          ></img>
+        </div>
+      ) : (
+        <h1>{summoner.runes != null ? "true" : "false"}</h1>
+      )}
     </div>
   );
 };
