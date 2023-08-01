@@ -137,21 +137,18 @@ const Match = ({ matchId, mainSummonerName }) => {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-
-      const response = await fetch(
-        `http://localhost:5191/MatchDetails?matchId=${matchId}`
-      );
       const response2 = await fetch(
         `http://ddragon.leagueoflegends.com/cdn/10.16.1/data/en_US/runesReforged.json`
+      );
+      const response = await fetch(
+        `http://localhost:5191/MatchDetails?matchId=${matchId}`
       );
 
       const data = await response.json();
       const data2 = await response2.json();
-
       setRunes(data2);
       setMatchDetails(data);
-
-      await sleep(5000);
+      await sleep(2000);
       mainSummoner(data.value.info.participants);
 
       setLoading(false);
@@ -177,7 +174,11 @@ const Match = ({ matchId, mainSummonerName }) => {
       <div id="generalMatchInfo">
         <h1>{gameMode(matchDetails.value.info.queueId)}</h1>
 
-        <h2>{summoner.win ? "Victory" : "Defeat"}</h2>
+        {summoner.win ? (
+          <h2 style={{ color: "#7bdeed" }}>Victory</h2>
+        ) : (
+          <h2 style={{ color: "#ed7b7b" }}>Defeat</h2>
+        )}
       </div>
       <img
         id="mainCharacterPortrait"
@@ -186,87 +187,134 @@ const Match = ({ matchId, mainSummonerName }) => {
         title={summoner.championName}
       ></img>
       <div id="mainSummonerSpells">
-        <img
-          className="summonerSpell"
-          src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summonerSpell(
-            summoner.summoner1Id
-          )}.png`}
-          alt="summoner spell 1"
-          title={summonerSpell(summoner.summoner1Id)}
-        ></img>
-        <img
-          className="summonerSpell"
-          src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summonerSpell(
-            summoner.summoner2Id
-          )}.png`}
-          alt="summoner spell 2"
-          title={summonerSpell(summoner.summoner2Id)}
-        ></img>
-      </div>
-      <h1>
-        {summoner.kills} / {summoner.deaths} / {summoner.assists}
-      </h1>
-      <h2>
-        {" "}
-        KDA{" "}
-        {summoner.deaths == 0
-          ? summoner.kills + summoner.assists
-          : ((summoner.kills + summoner.assists) / summoner.deaths).toFixed(2)}
-      </h2>
-      {summoner.runesMain[0] ? (
         <div>
           <img
-            id="keystoneMain"
-            alt="Summoner's keystone rune"
-            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[0].icon}`}
-            title={summoner.runesMain[0].key}
+            className="summonerSpell"
+            src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summonerSpell(
+              summoner.summoner1Id
+            )}.png`}
+            alt="summoner spell 1"
+            title={summonerSpell(summoner.summoner1Id)}
           ></img>
+        </div>
+        <div>
           <img
-            id="keystoneMain"
-            alt="Summoner's keystone rune"
-            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[1].icon}`}
-            title={summoner.runesMain[1].longDesc}
+            className="summonerSpell"
+            src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summonerSpell(
+              summoner.summoner2Id
+            )}.png`}
+            alt="summoner spell 2"
+            title={summonerSpell(summoner.summoner2Id)}
           ></img>
-          <img
-            id="keystoneMain"
-            alt="Summoner's keystone rune"
-            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[2].icon}`}
-            title={summoner.runesMain[2].longDesc}
-          ></img>
-          <img
-            id="keystoneMain"
-            alt="Summoner's keystone rune"
-            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[3].icon}`}
-            title={summoner.runesMain[3].longDesc}
-          ></img>
-          <img
-            id="keystoneMain"
-            alt="Summoner's keystone rune"
-            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[4].icon}`}
-            title={summoner.runesMain[4].longDesc}
-          ></img>
-          <img
-            id="keystoneMain"
-            alt="Summoner's keystone rune"
-            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[0].icon}`}
-            title={summoner.runesSub[0].key}
-          ></img>
-          <img
-            id="keystoneMain"
-            alt="Summoner's keystone rune"
-            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[1].icon}`}
-            title={summoner.runesSub[1].longDesc}
-          ></img>
-          <img
-            id="keystoneMain"
-            alt="Summoner's keystone rune"
-            src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[2].icon}`}
-            title={summoner.runesSub[2].longDesc}
-          ></img>
+        </div>
+      </div>
+      <div>
+        <h1>
+          {summoner.kills} / {summoner.deaths} / {summoner.assists}
+        </h1>
+        <h2 id="kda">
+          {" "}
+          KDA{" "}
+          {summoner.deaths == 0
+            ? summoner.kills + summoner.assists
+            : ((summoner.kills + summoner.assists) / summoner.deaths).toFixed(
+                2
+              )}
+        </h2>
+      </div>
+      {summoner.runesMain[0] ? (
+        <div id="Runes">
+          <div id="runesMain">
+            <img
+              id="keystoneMain"
+              alt="Summoner's keystone rune"
+              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[0].icon}`}
+              title={summoner.runesMain[0].key}
+            ></img>
+            <img
+              id="keystoneMain"
+              alt="Summoner's keystone rune"
+              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[1].icon}`}
+              title={summoner.runesMain[1].longDesc}
+            ></img>
+            <img
+              id="keystoneMain"
+              alt="Summoner's keystone rune"
+              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[2].icon}`}
+              title={summoner.runesMain[2].longDesc}
+            ></img>
+            <img
+              id="keystoneMain"
+              alt="Summoner's keystone rune"
+              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[3].icon}`}
+              title={summoner.runesMain[3].longDesc}
+            ></img>
+            <img
+              id="keystoneMain"
+              alt="Summoner's keystone rune"
+              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[4].icon}`}
+              title={summoner.runesMain[4].longDesc}
+            ></img>
+          </div>
+          <div id="runesSub">
+            <img
+              id="keystoneMain"
+              alt="Summoner's keystone rune"
+              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[0].icon}`}
+              title={summoner.runesSub[0].key}
+            ></img>
+            <img
+              id="keystoneMain"
+              alt="Summoner's keystone rune"
+              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[1].icon}`}
+              title={summoner.runesSub[1].longDesc}
+            ></img>
+            <img
+              id="keystoneMain"
+              alt="Summoner's keystone rune"
+              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[2].icon}`}
+              title={summoner.runesSub[2].longDesc}
+            ></img>
+          </div>
         </div>
       ) : (
         <h1>{summoner.runes != null ? "true" : "false"}</h1>
       )}
+      <img
+        className="item"
+        alt="item"
+        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item0}.png`}
+      ></img>
+      <img
+        className="item"
+        alt="item"
+        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item1}.png`}
+      ></img>
+      <img
+        className="item"
+        alt="item"
+        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item2}.png`}
+      ></img>
+      <img
+        className="item"
+        alt="item"
+        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item3}.png`}
+      ></img>
+      <img
+        className="item"
+        alt="item"
+        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item4}.png`}
+      ></img>
+      <img
+        className="item"
+        alt="item"
+        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item5}.png`}
+      ></img>
+      <img
+        className="item"
+        alt="item"
+        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item6}.png`}
+      ></img>
     </div>
   );
 };

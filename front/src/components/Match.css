@@ -1,18 +1,43 @@
 #match {
-  max-width: 60%;
+  max-width: 75%;
   display: flex;
   background-color: (51, 45, 122);
+  margin: 1em;
+}
+#match > * {
+  margin: 5px;
 }
 .summonerSpell {
-  max-width: 32px;
-  max-height: 32px;
+  max-width: 40px;
+  max-height: 40px;
 }
 #mainCharacterPortrait {
   border-radius: 25px;
-  max-width: 64px;
-  max-height: 64px;
+  max-width: 96px;
+  max-height: 96px;
 }
 #keystoneMain {
-  max-width: 24px;
-  max-height: 24px;
+  max-width: 32px;
+  max-height: 32px;
+  display: block;
+}
+#runesMain {
+  display: block;
+}
+#runesSub {
+  display: block;
+  margin-top: 32px;
+}
+#Runes {
+  display: inline-flex;
+}
+#kda {
+  text-align: center;
+}
+#generalMatchInfo {
+  text-align: center;
+}
+.item {
+  max-width: 48px;
+  max-height: 48px;
 }
