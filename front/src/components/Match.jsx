@@ -2,11 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./Match.css";
 
-const Match = ({ matchId, mainSummonerName }) => {
+const Match = ({ matchId, mainSummonerName, runes }) => {
   const [loading, setLoading] = useState(true);
   const [matchDetails, setMatchDetails] = useState(null);
   const [summoner, setSummoner] = useState(null);
-  const [runes, setRunes] = useState(null);
+
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   function gameMode(id) {
     switch (id) {
@@ -73,7 +73,6 @@ const Match = ({ matchId, mainSummonerName }) => {
     }
   }
   function mainSummoner(arr) {
-    console.log(runes);
     for (let i of arr) {
       i.runesMain = runeRenderMain([
         i.perks.styles[0].style,
@@ -96,7 +95,7 @@ const Match = ({ matchId, mainSummonerName }) => {
   function runeRenderMain(id) {
     let response = [];
     let i = 0;
-    console.log(runes);
+
     for (let tree of runes) {
       if (id[i] == tree.id) {
         response.push(tree);
@@ -137,20 +136,17 @@ const Match = ({ matchId, mainSummonerName }) => {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-      const response2 = await fetch(
-        `http://ddragon.leagueoflegends.com/cdn/10.16.1/data/en_US/runesReforged.json`
-      );
+
       const response = await fetch(
         `http://localhost:5191/MatchDetails?matchId=${matchId}`
       );
 
       const data = await response.json();
-      const data2 = await response2.json();
-      setRunes(data2);
-      setMatchDetails(data);
-      await sleep(2000);
-      mainSummoner(data.value.info.participants);
+      console.log(data);
 
+      mainSummoner(data.value.info.participants);
+      sleep(3000);
+      setMatchDetails(data);
       setLoading(false);
     };
     load();
@@ -222,7 +218,7 @@ const Match = ({ matchId, mainSummonerName }) => {
               )}
         </h2>
       </div>
-      {summoner.runesMain[0] ? (
+      {summoner.runesMain[4] ? (
         <div id="Runes">
           <div id="runesMain">
             <img
@@ -278,7 +274,7 @@ const Match = ({ matchId, mainSummonerName }) => {
           </div>
         </div>
       ) : (
-        <h1>{summoner.runes != null ? "true" : "false"}</h1>
+        <h1>No Runes</h1>
       )}
       <img
         className="item"

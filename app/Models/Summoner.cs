@@ -25,6 +25,6 @@ namespace app.Models
         public int losesSolo { get; set; } = 0;
 
         public List<string> matchList { get; set; }
-
+        public List<Rune> runes { get; set; }
     }
 }

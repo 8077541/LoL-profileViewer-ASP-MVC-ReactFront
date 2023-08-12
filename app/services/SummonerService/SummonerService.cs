@@ -81,7 +81,7 @@ namespace app.services.SummonerService
         public async Task<ActionResult<Summoner>> GetSingle(string id, string region)
         {
 
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{id}?api_key=RGAPI-7167788a-d866-4478-b62a-431de9078ffb");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{id}?api_key=RGAPI-4af8c654-5a68-44d7-89a9-736bf1c52c6d");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
@@ -90,7 +90,7 @@ namespace app.services.SummonerService
             var summoner = JsonConvert.DeserializeObject<Summoner>(json);
 
 
-            var response2 = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner.id}?api_key=RGAPI-7167788a-d866-4478-b62a-431de9078ffb");
+            var response2 = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner.id}?api_key=RGAPI-4af8c654-5a68-44d7-89a9-736bf1c52c6d");
             if (response2.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
@@ -98,6 +98,15 @@ namespace app.services.SummonerService
             }
             var json2 = await response2.Content.ReadAsStringAsync();
             var summoner2 = JsonConvert.DeserializeObject<List<SummonerRank>>(json2);
+
+            var response3 = await _httpClient.GetAsync("http://ddragon.leagueoflegends.com/cdn/13.15.1/data/en_US/runesReforged.json");
+            var json3 = await response3.Content.ReadAsStringAsync();
+            var summoner3 = JsonConvert.DeserializeObject<List<Rune>>(json3);
+
+
+            summoner.runes = summoner3;
+
+
 
             IMatchService _matchService = new MatchService.MatchService();
             List<string> res = await _matchService.getMatchId(summoner.puuid, region);
