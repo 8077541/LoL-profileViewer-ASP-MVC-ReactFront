@@ -2,12 +2,13 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./Match.css";
 
-const Match = ({ matchId, mainSummonerName, runes }) => {
+const Match = ({ matchId, mainSummonerName, runes, items }) => {
   const [loading, setLoading] = useState(true);
   const [matchDetails, setMatchDetails] = useState(null);
   const [summoner, setSummoner] = useState(null);
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   function gameMode(id) {
     switch (id) {
       case 400:
@@ -86,11 +87,40 @@ const Match = ({ matchId, mainSummonerName, runes }) => {
         i.perks.styles[1].selections[0].perk,
         i.perks.styles[1].selections[1].perk,
       ]);
+      i.items = itemRender([
+        i.item0,
+        i.item1,
+        i.item2,
+        i.item3,
+        i.item4,
+        i.item5,
+        i.item6,
+      ]);
       if (mainSummonerName === i.summonerName) {
         setSummoner(i);
         console.log(i);
       }
     }
+  }
+  function itemRender(arr) {
+    let counter = 0;
+    let response = [];
+    for (let x of arr) {
+      if (x == 0) {
+        response.push({
+          id: 0,
+        });
+        continue;
+      }
+      for (let item of items) {
+        if (x == item.id) {
+          response.push(item);
+          counter++;
+          break;
+        }
+      }
+    }
+    return response;
   }
   function runeRenderMain(id) {
     let response = [];
@@ -176,35 +206,37 @@ const Match = ({ matchId, mainSummonerName, runes }) => {
           <h2 style={{ color: "#ed7b7b" }}>Defeat</h2>
         )}
       </div>
-      <img
-        id="mainCharacterPortrait"
-        src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${summoner.championId}.png`}
-        alt="Character Portrait"
-        title={summoner.championName}
-      ></img>
-      <div id="mainSummonerSpells">
-        <div>
-          <img
-            className="summonerSpell"
-            src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summonerSpell(
-              summoner.summoner1Id
-            )}.png`}
-            alt="summoner spell 1"
-            title={summonerSpell(summoner.summoner1Id)}
-          ></img>
-        </div>
-        <div>
-          <img
-            className="summonerSpell"
-            src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summonerSpell(
-              summoner.summoner2Id
-            )}.png`}
-            alt="summoner spell 2"
-            title={summonerSpell(summoner.summoner2Id)}
-          ></img>
+      <div id="champAndSumms">
+        <img
+          id="mainCharacterPortrait"
+          src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${summoner.championId}.png`}
+          alt="Character Portrait"
+          title={summoner.championName}
+        ></img>
+        <div id="mainSummonerSpells">
+          <div>
+            <img
+              className="summonerSpell"
+              src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summonerSpell(
+                summoner.summoner1Id
+              )}.png`}
+              alt="summoner spell 1"
+              title={summonerSpell(summoner.summoner1Id)}
+            ></img>
+          </div>
+          <div>
+            <img
+              className="summonerSpell"
+              src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summonerSpell(
+                summoner.summoner2Id
+              )}.png`}
+              alt="summoner spell 2"
+              title={summonerSpell(summoner.summoner2Id)}
+            ></img>
+          </div>
         </div>
       </div>
-      <div>
+      <div id="stats">
         <h1>
           {summoner.kills} / {summoner.deaths} / {summoner.assists}
         </h1>
@@ -274,43 +306,21 @@ const Match = ({ matchId, mainSummonerName, runes }) => {
           </div>
         </div>
       ) : (
-        <h1>No Runes</h1>
+        <h1 id="Runes">No Runes</h1>
       )}
-      <img
-        className="item"
-        alt="item"
-        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item0}.png`}
-      ></img>
-      <img
-        className="item"
-        alt="item"
-        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item1}.png`}
-      ></img>
-      <img
-        className="item"
-        alt="item"
-        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item2}.png`}
-      ></img>
-      <img
-        className="item"
-        alt="item"
-        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item3}.png`}
-      ></img>
-      <img
-        className="item"
-        alt="item"
-        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item4}.png`}
-      ></img>
-      <img
-        className="item"
-        alt="item"
-        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item5}.png`}
-      ></img>
-      <img
-        className="item"
-        alt="item"
-        src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${summoner.item6}.png`}
-      ></img>
+      <div id="items">
+        {summoner.items.map((item) => {
+          return item.id != 0 ? (
+            <img
+              className="item"
+              alt="item"
+              src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${item.id}.png`}
+            ></img>
+          ) : (
+            <div className="item"></div>
+          );
+        })}
+      </div>
     </div>
   );
 };

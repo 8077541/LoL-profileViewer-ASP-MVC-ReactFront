@@ -139,6 +139,7 @@ const Summoner = () => {
                 matchId={match}
                 mainSummonerName={playerData.value.name}
                 runes={playerData.value.runes}
+                items={playerData.value.items}
               />
             );
           })}

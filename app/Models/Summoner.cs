@@ -26,5 +26,6 @@ namespace app.Models
 
         public List<string> matchList { get; set; }
         public List<Rune> runes { get; set; }
+        public List<Item> items { get; set; }
     }
 }

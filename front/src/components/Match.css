@@ -1,15 +1,36 @@
 #match {
   max-width: 75%;
   display: flex;
-  background-color: (51, 45, 122);
+  background-color: #292146;
   margin: 1em;
 }
 #match > * {
   margin: 5px;
 }
+#champAndSumms {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 3%;
+}
+#items img {
+  margin-left: 8px;
+}
+#items div {
+  margin-left: 8px;
+}
 .summonerSpell {
   max-width: 40px;
   max-height: 40px;
+}
+#stats {
+  width: 15%;
+  text-align: center;
 }
 #mainCharacterPortrait {
   border-radius: 25px;
@@ -30,14 +51,19 @@
 }
 #Runes {
   display: inline-flex;
+  width: 5%;
 }
 #kda {
   text-align: center;
 }
 #generalMatchInfo {
   text-align: center;
+  width: 15%;
 }
 .item {
   max-width: 48px;
   max-height: 48px;
+  background-color: #191035;
+  min-width: 48px;
+  height: 48px;
 }
