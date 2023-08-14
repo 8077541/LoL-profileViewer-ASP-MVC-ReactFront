@@ -140,6 +140,7 @@ const Summoner = () => {
                 mainSummonerName={playerData.value.name}
                 runes={playerData.value.runes}
                 items={playerData.value.items}
+                region={params.region.toLowerCase()}
               />
             );
           })}

@@ -1,12 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./Match.css";
+import { Link, useNavigate } from "react-router-dom";
 
-const Match = ({ matchId, mainSummonerName, runes, items }) => {
+const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
   const [loading, setLoading] = useState(true);
   const [matchDetails, setMatchDetails] = useState(null);
   const [summoner, setSummoner] = useState(null);
-
+  const navigate = useNavigate();
+  const summonerRedirect = (region, name) => {
+    navigate(`/summoners/${region}/${name}`);
+    navigate(0);
+  };
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   function gameMode(id) {
@@ -320,6 +325,57 @@ const Match = ({ matchId, mainSummonerName, runes, items }) => {
             <div className="item"></div>
           );
         })}
+      </div>
+      <div id="playerList">
+        <div id="teamOne">
+          {matchDetails.value.info.participants.map((player) => {
+            if (player.teamId == 100) {
+              return (
+                <div className="teamLeft">
+                  <img
+                    id="playerListChampImg"
+                    src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${player.championId}.png`}
+                    alt="Character Portrait"
+                    title={player.championName}
+                  ></img>
+                  <h1
+                    onClick={() =>
+                      summonerRedirect(region, player.summonerName)
+                    }
+                  >
+                    {" "}
+                    {player.summonerName}
+                  </h1>
+                </div>
+              );
+            }
+          })}
+        </div>
+        <div id="teamTwo">
+          {matchDetails.value.info.participants.map((player) => {
+            if (player.teamId == 200) {
+              return (
+                <div className="teamRight">
+                  <img
+                    id="playerListChampImg"
+                    src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${player.championId}.png`}
+                    alt="Character Portrait"
+                    title={player.championName}
+                  ></img>
+
+                  <h1
+                    onClick={() =>
+                      summonerRedirect(region, player.summonerName)
+                    }
+                  >
+                    {" "}
+                    {player.summonerName}
+                  </h1>
+                </div>
+              );
+            }
+          })}
+        </div>
       </div>
     </div>
   );

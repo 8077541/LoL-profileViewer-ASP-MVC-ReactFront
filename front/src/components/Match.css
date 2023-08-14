@@ -1,5 +1,5 @@
 #match {
-  max-width: 75%;
+  max-width: 90%;
   display: flex;
   background-color: #292146;
   margin: 1em;
@@ -36,6 +36,7 @@
   border-radius: 25px;
   max-width: 96px;
   max-height: 96px;
+  filter: drop-shadow(6px 6px 3px rgba(123, 92, 235, 0.3));
 }
 #keystoneMain {
   max-width: 32px;
@@ -66,4 +67,32 @@
   background-color: #191035;
   min-width: 48px;
   height: 48px;
+}
+#playerList {
+  font-size: 5px;
+  display: flex;
+  width: 20%;
+}
+#playerList a {
+  text-decoration: none;
+  color: rgb(149, 142, 238);
+}
+#playerListChampImg {
+  height: 18px;
+  width: 18px;
+  border-radius: 25px;
+  float: left;
+  display: block;
+}
+
+#teamOne {
+  display: block;
+
+  width: 50%;
+}
+
+#teamTwo {
+  display: block;
+
+  width: 50%;
 }
