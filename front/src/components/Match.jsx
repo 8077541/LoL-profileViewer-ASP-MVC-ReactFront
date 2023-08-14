@@ -78,6 +78,30 @@ const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
         return "Summoner_UltBookPlaceholder";
     }
   }
+  function gameLength() {
+    let sLength = matchDetails.value.info.gameDuration;
+    let lengthDec = Math.trunc(sLength / 60);
+    return `${lengthDec}m ${sLength - lengthDec * 60}s`;
+  }
+  function time(timestamp) {
+    let tim = new Date().getTime();
+    console.log(tim);
+    let milago = tim - timestamp;
+    let secondsAgo = Math.trunc(milago / 1000);
+    let minutesAgo = Math.trunc(secondsAgo / 60);
+    let hoursAgo = Math.trunc(minutesAgo / 60);
+    let daysAgo = Math.trunc(hoursAgo / 24);
+    if (daysAgo >= 1) {
+      return `${daysAgo} ${daysAgo == 1 ? "Day" : "Days"} ago`;
+    }
+    if (hoursAgo >= 1) {
+      return `${hoursAgo} ${hoursAgo == 1 ? "Hour" : "Hours"} ago`;
+    }
+    if (minutesAgo >= 1) {
+      return `${minutesAgo} ${minutesAgo == 1 ? "Minute" : "Minutes"} ago`;
+    }
+    return "now";
+  }
   function mainSummoner(arr) {
     for (let i of arr) {
       i.runesMain = runeRenderMain([
@@ -182,34 +206,45 @@ const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
       mainSummoner(data.value.info.participants);
       sleep(3000);
       setMatchDetails(data);
+
       setLoading(false);
     };
     load();
   }, []);
 
   if (loading) {
-    return (
-      <div id="loading">
-        <div className="lds-ellipsis">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-    );
+    return <div></div>;
   }
 
   return (
-    <div id="match">
+    <div
+      id="match"
+      style={
+        summoner.win
+          ? { backgroundColor: "#292146" }
+          : { backgroundColor: "#462129" }
+      }
+    >
+      <div
+        id="line"
+        style={
+          summoner.win
+            ? { backgroundColor: "#33275c" }
+            : { backgroundColor: "#6b2e3b" }
+        }
+      ></div>
       <div id="generalMatchInfo">
-        <h1>{gameMode(matchDetails.value.info.queueId)}</h1>
+        <h1 style={summoner.win ? { color: "#7bdeed" } : { color: "#ed7b7b" }}>
+          {gameMode(matchDetails.value.info.queueId)}
+        </h1>
 
         {summoner.win ? (
           <h2 style={{ color: "#7bdeed" }}>Victory</h2>
         ) : (
           <h2 style={{ color: "#ed7b7b" }}>Defeat</h2>
         )}
+        <h2>{gameLength()}</h2>
+        <h2>{time(matchDetails.value.info.gameEndTimestamp)}</h2>
       </div>
       <div id="champAndSumms">
         <img
@@ -243,16 +278,25 @@ const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
       </div>
       <div id="stats">
         <h1>
-          {summoner.kills} / {summoner.deaths} / {summoner.assists}
+          {summoner.kills} / <span className="redColor">{summoner.deaths}</span>{" "}
+          / {summoner.assists}
         </h1>
         <h2 id="kda">
           {" "}
-          KDA{" "}
           {summoner.deaths == 0
             ? summoner.kills + summoner.assists
             : ((summoner.kills + summoner.assists) / summoner.deaths).toFixed(
                 2
-              )}
+              )}{" "}
+          KDA
+        </h2>
+        <h2 id="minions">
+          {summoner.totalMinionsKilled} CS (
+          {(
+            summoner.totalMinionsKilled /
+            (matchDetails.value.info.gameDuration / 60)
+          ).toFixed(1)}
+          )
         </h2>
       </div>
       {summoner.runesMain[4] ? (
@@ -376,6 +420,18 @@ const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
             }
           })}
         </div>
+      </div>
+      <div
+        id="expand"
+        style={
+          summoner.win
+            ? { backgroundColor: "#33275c" }
+            : { backgroundColor: "#6b2e3b" }
+        }
+      >
+        <h1 style={summoner.win ? { color: "#7bdeed" } : { color: "#ed7b7b" }}>
+          v
+        </h1>
       </div>
     </div>
   );

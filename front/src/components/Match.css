@@ -1,11 +1,37 @@
 #match {
-  max-width: 90%;
+  max-width: 80%;
   display: flex;
   background-color: #292146;
   margin: 1em;
+  min-height: 10em;
+  color: #e6e6e7;
+  border-radius: 15px;
 }
 #match > * {
-  margin: 5px;
+  margin: 2px;
+}
+#line {
+  width: 1%;
+
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  margin: 0;
+}
+#expand {
+  width: 3%;
+  margin: 0;
+  position: relative;
+}
+#expand h1 {
+  position: absolute;
+
+  margin-top: auto;
+  text-align: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 0px;
+  font-size: 25px;
 }
 #champAndSumms {
   display: flex;
@@ -16,7 +42,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 3%;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 #items img {
   margin-left: 8px;
@@ -31,6 +58,15 @@
 #stats {
   width: 15%;
   text-align: center;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+#stats h1 {
+  margin-bottom: 1px;
 }
 #mainCharacterPortrait {
   border-radius: 25px;
@@ -39,8 +75,8 @@
   filter: drop-shadow(6px 6px 3px rgba(123, 92, 235, 0.3));
 }
 #keystoneMain {
-  max-width: 32px;
-  max-height: 32px;
+  max-width: 28px;
+  max-height: 28px;
   display: block;
 }
 #runesMain {
@@ -48,11 +84,13 @@
 }
 #runesSub {
   display: block;
-  margin-top: 32px;
 }
 #Runes {
   display: inline-flex;
-  width: 5%;
+  width: 2%;
+
+  justify-content: center;
+  align-items: center;
 }
 #kda {
   text-align: center;
@@ -62,24 +100,25 @@
   width: 15%;
 }
 .item {
-  max-width: 48px;
-  max-height: 48px;
   background-color: #191035;
-  min-width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
 }
 #playerList {
-  font-size: 5px;
-  display: flex;
+  font-size: 6px;
+
   width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #playerList a {
   text-decoration: none;
   color: rgb(149, 142, 238);
 }
 #playerListChampImg {
-  height: 18px;
-  width: 18px;
+  height: 20px;
+  width: 20px;
   border-radius: 25px;
   float: left;
   display: block;
@@ -95,4 +134,18 @@
   display: block;
 
   width: 50%;
+}
+#playerList h1:hover {
+  background-color: azure;
+  cursor: pointer;
+}
+#generalMatchInfo {
+  font-size: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
+  justify-content: center;
+  align-items: center;
+}
+.redColor {
+  color: rgb(238, 142, 158);
 }
