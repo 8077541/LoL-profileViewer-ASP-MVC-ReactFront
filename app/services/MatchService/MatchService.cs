@@ -30,7 +30,7 @@ namespace app.services.MatchService
             }
 
 
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}?api_key=RGAPI-8f0ed85e-b43c-4ddd-82c6-1c0d3b6d29b4");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}?api_key=RGAPI-0353e069-af40-4f9f-b62a-ea591bc2fbe6");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
@@ -64,7 +64,7 @@ namespace app.services.MatchService
             {
                 queueId = $"queue={queueId}&";
             }
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?{"startTime=" + startTime + "&"}{"endTime=" + endTime + "&"}{queueId}start=0&count={countEnd}&api_key=RGAPI-8f0ed85e-b43c-4ddd-82c6-1c0d3b6d29b4");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?{"startTime=" + startTime + "&"}{"endTime=" + endTime + "&"}{queueId}start=0&count={countEnd}&api_key=RGAPI-0353e069-af40-4f9f-b62a-ea591bc2fbe6");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");

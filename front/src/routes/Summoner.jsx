@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import "./Summoner.css";
 import Match from "../components/Match";
+import Home from "./Home";
 
 const api = axios.create({
   baseURL: "http://localhost:5191/",
@@ -56,7 +57,7 @@ const Summoner = () => {
           <div id="summonerIconAndLevelBox">
             <img
               id="summonerIcon"
-              src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/profileicon/${playerData.value.profileIconId}.png`}
+              src={`http://ddragon.leagueoflegends.com/cdn/13.16.1/img/profileicon/${playerData.value.profileIconId}.png`}
               alt="profileIcon"
             ></img>
             <h1 id="summonerLevel">{playerData.value.summonerLevel} </h1>
@@ -87,8 +88,9 @@ const Summoner = () => {
                           playerData.value.losesSolo)) *
                         100
                     )}
-                    % Winrate
-                  </span>
+                    %
+                  </span>{" "}
+                  Winrate
                   {" | "}
                   {playerData.value.winsSolo}W {playerData.value.losesSolo}L
                 </h2>

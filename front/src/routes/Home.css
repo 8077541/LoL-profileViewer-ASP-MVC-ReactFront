@@ -1,6 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Raleway&display=swap");
 body {
   background-color: rgb(12, 7, 27);
   color: rgb(149, 142, 238);
+  font-family: "Poppins";
 }
 #homeSearch {
   position: absolute;

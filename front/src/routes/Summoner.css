@@ -2,7 +2,6 @@
   background-color: rgb(17, 11, 36);
   margin: auto;
   width: 80%;
-
   padding: 10px;
 }
 #loading {
@@ -12,7 +11,12 @@
   transform: translate(-50%, -50%);
   padding: 10px;
 }
-
+#summonerSearch {
+  position: relative;
+}
+#winrate {
+  color: #aa8cfd;
+}
 .lds-ellipsis {
   display: inline-block;
   position: relative;
@@ -72,6 +76,7 @@
   display: flex;
   background-color: rgb(25, 16, 56);
   justify-content: space-around;
+  border-radius: 15px;
 }
 #summonerIconAndLevelBox {
   margin: 1em;

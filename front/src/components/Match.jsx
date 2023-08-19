@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import "./Match.css";
 import { Link, useNavigate } from "react-router-dom";
+import MatchDetails from "./MatchDetails";
 
 const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
   const [loading, setLoading] = useState(true);
@@ -13,7 +14,11 @@ const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
     navigate(0);
   };
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
+  function viewMatchDetails() {
+    const el = document.querySelector("#viewMatchDetails");
+    console.log(el);
+    el.style.visibility = "shown";
+  }
   function gameMode(id) {
     switch (id) {
       case 400:
@@ -125,6 +130,8 @@ const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
         i.item5,
         i.item6,
       ]);
+      i.summonerSpellName1 = summonerSpell(i.summoner1Id);
+      i.summonerSpellName2 = summonerSpell(i.summoner2Id);
       if (mainSummonerName === i.summonerName) {
         setSummoner(i);
         console.log(i);
@@ -217,221 +224,213 @@ const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
   }
 
   return (
-    <div
-      id="match"
-      style={
-        summoner.win
-          ? { backgroundColor: "#292146" }
-          : { backgroundColor: "#462129" }
-      }
-    >
+    <div>
       <div
-        id="line"
+        id="match"
         style={
           summoner.win
-            ? { backgroundColor: "#33275c" }
-            : { backgroundColor: "#6b2e3b" }
-        }
-      ></div>
-      <div id="generalMatchInfo">
-        <h1 style={summoner.win ? { color: "#7bdeed" } : { color: "#ed7b7b" }}>
-          {gameMode(matchDetails.value.info.queueId)}
-        </h1>
-
-        {summoner.win ? (
-          <h2 style={{ color: "#7bdeed" }}>Victory</h2>
-        ) : (
-          <h2 style={{ color: "#ed7b7b" }}>Defeat</h2>
-        )}
-        <h2>{gameLength()}</h2>
-        <h2>{time(matchDetails.value.info.gameEndTimestamp)}</h2>
-      </div>
-      <div id="champAndSumms">
-        <img
-          id="mainCharacterPortrait"
-          src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${summoner.championId}.png`}
-          alt="Character Portrait"
-          title={summoner.championName}
-        ></img>
-        <div id="mainSummonerSpells">
-          <div>
-            <img
-              className="summonerSpell"
-              src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summonerSpell(
-                summoner.summoner1Id
-              )}.png`}
-              alt="summoner spell 1"
-              title={summonerSpell(summoner.summoner1Id)}
-            ></img>
-          </div>
-          <div>
-            <img
-              className="summonerSpell"
-              src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summonerSpell(
-                summoner.summoner2Id
-              )}.png`}
-              alt="summoner spell 2"
-              title={summonerSpell(summoner.summoner2Id)}
-            ></img>
-          </div>
-        </div>
-      </div>
-      <div id="stats">
-        <h1>
-          {summoner.kills} / <span className="redColor">{summoner.deaths}</span>{" "}
-          / {summoner.assists}
-        </h1>
-        <h2 id="kda">
-          {" "}
-          {summoner.deaths == 0
-            ? summoner.kills + summoner.assists
-            : ((summoner.kills + summoner.assists) / summoner.deaths).toFixed(
-                2
-              )}{" "}
-          KDA
-        </h2>
-        <h2 id="minions">
-          {summoner.totalMinionsKilled} CS (
-          {(
-            summoner.totalMinionsKilled /
-            (matchDetails.value.info.gameDuration / 60)
-          ).toFixed(1)}
-          )
-        </h2>
-      </div>
-      {summoner.runesMain[4] ? (
-        <div id="Runes">
-          <div id="runesMain">
-            <img
-              id="keystoneMain"
-              alt="Summoner's keystone rune"
-              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[0].icon}`}
-              title={summoner.runesMain[0].key}
-            ></img>
-            <img
-              id="keystoneMain"
-              alt="Summoner's keystone rune"
-              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[1].icon}`}
-              title={summoner.runesMain[1].longDesc}
-            ></img>
-            <img
-              id="keystoneMain"
-              alt="Summoner's keystone rune"
-              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[2].icon}`}
-              title={summoner.runesMain[2].longDesc}
-            ></img>
-            <img
-              id="keystoneMain"
-              alt="Summoner's keystone rune"
-              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[3].icon}`}
-              title={summoner.runesMain[3].longDesc}
-            ></img>
-            <img
-              id="keystoneMain"
-              alt="Summoner's keystone rune"
-              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesMain[4].icon}`}
-              title={summoner.runesMain[4].longDesc}
-            ></img>
-          </div>
-          <div id="runesSub">
-            <img
-              id="keystoneMain"
-              alt="Summoner's keystone rune"
-              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[0].icon}`}
-              title={summoner.runesSub[0].key}
-            ></img>
-            <img
-              id="keystoneMain"
-              alt="Summoner's keystone rune"
-              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[1].icon}`}
-              title={summoner.runesSub[1].longDesc}
-            ></img>
-            <img
-              id="keystoneMain"
-              alt="Summoner's keystone rune"
-              src={`http://ddragon.leagueoflegends.com/cdn/img/${summoner.runesSub[2].icon}`}
-              title={summoner.runesSub[2].longDesc}
-            ></img>
-          </div>
-        </div>
-      ) : (
-        <h1 id="Runes">No Runes</h1>
-      )}
-      <div id="items">
-        {summoner.items.map((item) => {
-          return item.id != 0 ? (
-            <img
-              className="item"
-              alt="item"
-              src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${item.id}.png`}
-            ></img>
-          ) : (
-            <div className="item"></div>
-          );
-        })}
-      </div>
-      <div id="playerList">
-        <div id="teamOne">
-          {matchDetails.value.info.participants.map((player) => {
-            if (player.teamId == 100) {
-              return (
-                <div className="teamLeft">
-                  <img
-                    id="playerListChampImg"
-                    src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${player.championId}.png`}
-                    alt="Character Portrait"
-                    title={player.championName}
-                  ></img>
-                  <h1
-                    onClick={() =>
-                      summonerRedirect(region, player.summonerName)
-                    }
-                  >
-                    {" "}
-                    {player.summonerName}
-                  </h1>
-                </div>
-              );
-            }
-          })}
-        </div>
-        <div id="teamTwo">
-          {matchDetails.value.info.participants.map((player) => {
-            if (player.teamId == 200) {
-              return (
-                <div className="teamRight">
-                  <img
-                    id="playerListChampImg"
-                    src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${player.championId}.png`}
-                    alt="Character Portrait"
-                    title={player.championName}
-                  ></img>
-
-                  <h1
-                    onClick={() =>
-                      summonerRedirect(region, player.summonerName)
-                    }
-                  >
-                    {" "}
-                    {player.summonerName}
-                  </h1>
-                </div>
-              );
-            }
-          })}
-        </div>
-      </div>
-      <div
-        id="expand"
-        style={
-          summoner.win
-            ? { backgroundColor: "#33275c" }
-            : { backgroundColor: "#6b2e3b" }
+            ? { backgroundColor: "#292146" }
+            : { backgroundColor: "#462129" }
         }
       >
-        <h1 style={summoner.win ? { color: "#7bdeed" } : { color: "#ed7b7b" }}>
-          v
-        </h1>
+        <div
+          id="line"
+          style={
+            summoner.win
+              ? { backgroundColor: "#33275c" }
+              : { backgroundColor: "#6b2e3b" }
+          }
+        ></div>
+        <div id="generalMatchInfo">
+          <h1
+            style={summoner.win ? { color: "#7bdeed" } : { color: "#ed7b7b" }}
+          >
+            {gameMode(matchDetails.value.info.queueId)}
+          </h1>
+
+          {summoner.win ? (
+            <h2 style={{ color: "#7bdeed" }}>Victory</h2>
+          ) : (
+            <h2 style={{ color: "#ed7b7b" }}>Defeat</h2>
+          )}
+          <h2>{gameLength()}</h2>
+          <h2>{time(matchDetails.value.info.gameEndTimestamp)}</h2>
+        </div>
+        <div id="champAndSumms">
+          <img
+            id="mainCharacterPortrait"
+            src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${summoner.championId}.png`}
+            alt="Character Portrait"
+            title={summoner.championName}
+          ></img>
+          <div id="mainSummonerSpells">
+            <div>
+              <img
+                className="summonerSpell"
+                src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summoner.summonerSpellName1}.png`}
+                alt="summoner spell 1"
+                title={summoner.summonerSpellName1}
+              ></img>
+            </div>
+            <div>
+              <img
+                className="summonerSpell"
+                src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/spell/${summoner.summonerSpellName2}.png`}
+                alt="summoner spell 2"
+                title={summoner.summonerSpellName2}
+              ></img>
+            </div>
+          </div>
+        </div>
+        <div id="stats">
+          <h1>
+            {summoner.kills} /{" "}
+            <span className="redColor">{summoner.deaths}</span> /{" "}
+            {summoner.assists}
+          </h1>
+          <h2 id="kda">
+            {" "}
+            {summoner.deaths == 0
+              ? summoner.kills + summoner.assists
+              : ((summoner.kills + summoner.assists) / summoner.deaths).toFixed(
+                  2
+                )}{" "}
+            KDA
+          </h2>
+          <h2 id="minions">
+            {summoner.totalMinionsKilled +
+              summoner.totalEnemyJungleMinionsKilled +
+              summoner.neutralMinionsKilled}{" "}
+            CS (
+            {(
+              (summoner.totalMinionsKilled +
+                summoner.totalEnemyJungleMinionsKilled +
+                summoner.neutralMinionsKilled) /
+              (matchDetails.value.info.gameDuration / 60)
+            ).toFixed(1)}
+            )
+          </h2>
+        </div>
+        {summoner.runesMain[4] ? (
+          <div id="Runes">
+            <div id="runesMain">
+              {summoner.runesMain.map((rune) => {
+                return (
+                  <img
+                    id="keystoneMain"
+                    alt="Summoner's keystone rune"
+                    src={`http://ddragon.leagueoflegends.com/cdn/img/${rune.icon}`}
+                    title={rune.key}
+                  ></img>
+                );
+              })}
+            </div>
+            <div id="runesSub">
+              {summoner.runesSub.map((rune) => {
+                return (
+                  <img
+                    id="keystoneMain"
+                    alt="Summoner's keystone rune"
+                    src={`http://ddragon.leagueoflegends.com/cdn/img/${rune.icon}`}
+                    title={rune.key}
+                  ></img>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          <h1 id="noRunes">No Runes</h1>
+        )}
+        <div id="items">
+          {summoner.items.map((item) => {
+            return item.id != 0 ? (
+              <img
+                className="item"
+                alt="item"
+                src={`http://ddragon.leagueoflegends.com/cdn/13.14.1/img/item/${item.id}.png`}
+              ></img>
+            ) : (
+              <div className="item"></div>
+            );
+          })}
+        </div>
+        <div id="playerList">
+          <div id="teamOne">
+            {matchDetails.value.info.participants.map((player) => {
+              if (player.teamId == 100) {
+                return (
+                  <div className="teamLeft">
+                    <img
+                      id="playerListChampImg"
+                      src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${player.championId}.png`}
+                      alt="Character Portrait"
+                      title={player.championName}
+                    ></img>
+                    <h1
+                      onClick={() =>
+                        summonerRedirect(region, player.summonerName)
+                      }
+                    >
+                      {" "}
+                      {player.summonerName}
+                    </h1>
+                  </div>
+                );
+              }
+            })}
+          </div>
+          <div id="teamTwo">
+            {matchDetails.value.info.participants.map((player) => {
+              if (player.teamId == 200) {
+                return (
+                  <div className="teamRight">
+                    <img
+                      id="playerListChampImg"
+                      src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${player.championId}.png`}
+                      alt="Character Portrait"
+                      title={player.championName}
+                    ></img>
+
+                    <h1
+                      onClick={() =>
+                        summonerRedirect(region, player.summonerName)
+                      }
+                    >
+                      {" "}
+                      {player.summonerName}
+                    </h1>
+                  </div>
+                );
+              }
+            })}
+          </div>
+        </div>
+        <div
+          onClick={() => {
+            viewMatchDetails();
+          }}
+          id="expand"
+          style={
+            summoner.win
+              ? { backgroundColor: "#33275c" }
+              : { backgroundColor: "#6b2e3b" }
+          }
+        >
+          <h1
+            style={summoner.win ? { color: "#4c3c82" } : { color: "#bd5e5e" }}
+          >
+            v
+          </h1>
+        </div>
+      </div>
+      <div id="viewMatchDetails">
+        <MatchDetails
+          mainSummonerName={mainSummonerName}
+          rune={runes}
+          items={items}
+          region={region}
+          matchDetails={matchDetails}
+        ></MatchDetails>
       </div>
     </div>
   );

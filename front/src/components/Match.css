@@ -1,5 +1,5 @@
 #match {
-  max-width: 80%;
+  max-width: 75%;
   display: flex;
   background-color: #292146;
   margin: 1em;
@@ -7,8 +7,8 @@
   color: #e6e6e7;
   border-radius: 15px;
 }
-#match > * {
-  margin: 2px;
+#viewMatchDetails {
+  visibility: shown;
 }
 #line {
   width: 1%;
@@ -20,7 +20,13 @@
 #expand {
   width: 3%;
   margin: 0;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
   position: relative;
+  margin-left: 4%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #expand h1 {
   position: absolute;
@@ -32,6 +38,7 @@
   margin-right: auto;
   bottom: 0px;
   font-size: 25px;
+  cursor: pointer;
 }
 #champAndSumms {
   display: flex;
@@ -52,7 +59,7 @@
   margin-left: 8px;
 }
 .summonerSpell {
-  max-width: 40px;
+  min-width: 40px;
   max-height: 40px;
 }
 #stats {
@@ -92,6 +99,14 @@
   justify-content: center;
   align-items: center;
 }
+#noRunes {
+  width: 2%;
+  font-size: 20px;
+
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
 #kda {
   text-align: center;
 }
@@ -107,7 +122,7 @@
 #playerList {
   font-size: 6px;
 
-  width: 20%;
+  width: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,6 +130,7 @@
 #playerList a {
   text-decoration: none;
   color: rgb(149, 142, 238);
+  font-weight: lighter;
 }
 #playerListChampImg {
   height: 20px;
