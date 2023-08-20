@@ -15,9 +15,9 @@ const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
   };
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   function viewMatchDetails() {
-    const el = document.querySelector("#viewMatchDetails");
+    const el = document.querySelector(`#i${matchDetails.value.info.gameId}`);
     console.log(el);
-    el.style.visibility = "shown";
+    el.style.display = el.style.display == "none" ? "block" : "none";
   }
   function gameMode(id) {
     switch (id) {

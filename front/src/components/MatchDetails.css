@@ -1,7 +1,14 @@
 #tableD {
-  display: inline-flex;
-  position: relative;
   font-size: 8px;
+  text-align: center;
+}
+#playerTable {
+  margin-left: 1em;
+  display: none;
+}
+#playerName:hover {
+  background-color: rgba(146, 146, 146, 0.5);
+  cursor: pointer;
 }
 #playerChamp {
   width: 36px;
@@ -10,11 +17,47 @@
   vertical-align: middle;
   margin-top: auto;
   margin-bottom: auto;
+  margin-right: 1em;
 }
 #tableHeaders {
   justify-content: space-around;
   width: 100%;
+  background-color: #292146;
 }
 #playerKDA {
-  margin-left: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+.rune {
+  max-width: 20px;
+  max-height: 20px;
+}
+#playerRunes {
+  display: block;
+  margin-top: auto;
+  margin-bottom: auto;
+  position: relative;
+}
+#playerItems {
+  justify-content: center;
+  position: relative;
+
+  align-items: center;
+}
+#playerItems img {
+  margin-left: 4px;
+}
+#playerItems div {
+  margin-left: 4px;
+}
+#playerItemsDiv {
+  display: flex;
+}
+
+#playerDamage {
+  text-align: center;
+}
+#playerGold {
+  text-align: center;
+  color: #c2c591;
 }

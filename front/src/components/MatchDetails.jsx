@@ -1,5 +1,6 @@
 import React from "react";
 import "./MatchDetails.css";
+import { Link, useNavigate } from "react-router-dom";
 const MatchDetails = ({
   mainSummonerName,
   runes,
@@ -7,8 +8,16 @@ const MatchDetails = ({
   region,
   matchDetails,
 }) => {
+  const navigate = useNavigate();
+  const summonerRedirect = (region, name) => {
+    navigate(`/summoners/${region}/${name}`);
+    navigate(0);
+  };
   return (
-    <table id="playerTable">
+    <table
+      id={`i` + matchDetails.value.info.gameId}
+      style={{ display: "none", marginLeft: "1em" }}
+    >
       <tr id="tableHeaders">
         <th></th>
         <th>Summoner Name</th>
@@ -17,6 +26,7 @@ const MatchDetails = ({
         <th>Runes</th>
         <th>Items</th>
         <th>Damage Dealt</th>
+        <th>Gold Earned</th>
       </tr>
       {matchDetails.value.info.participants.map((player) => {
         return (
@@ -38,6 +48,8 @@ const MatchDetails = ({
             <td id="tableD">
               {" "}
               <h2
+                onClick={() => summonerRedirect(region, player.summonerName)}
+                id="playerName"
                 style={
                   player.summonerName == mainSummonerName
                     ? { color: "#ee8eeb" }
@@ -50,7 +62,9 @@ const MatchDetails = ({
             <td>
               {" "}
               <h3 id="playerKDA">
-                {player.kills} / {player.deaths} / {player.assists}
+                {player.kills} /{" "}
+                <span className="redColor">{player.deaths} </span>/{" "}
+                {player.assists}
               </h3>
             </td>
             <td>
@@ -143,6 +157,7 @@ const MatchDetails = ({
                 </span>
               </div>
             </td>
+            <td id="playerGold">{player.goldEarned}</td>
           </tr>
         );
       })}
