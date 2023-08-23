@@ -12,7 +12,16 @@ namespace app.services.MatchService
     {
         private readonly HttpClient _httpClient = new HttpClient();
 
+        public async Task<ActionResult<CurrentGameInfo>> getLiveMatch(string summonerId, string region)
+        {
 
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/{summonerId}");
+            var json = await response.Content.ReadAsStringAsync();
+            var match = JsonConvert.DeserializeObject<CurrentGameInfo>(json);
+            Console.WriteLine(match.gameType);
+            return match;
+
+        }
         public async Task<ActionResult<Match>> getMatchDetails(string matchId)
         {
             var region = "";
@@ -30,7 +39,7 @@ namespace app.services.MatchService
             }
 
 
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}?api_key=RGAPI-55ad8b62-8ade-4bf6-ac58-7261f23d15e3");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}?api_key=RGAPI-91b0168e-bc39-4e92-858f-1be72f735fdf");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
@@ -64,7 +73,7 @@ namespace app.services.MatchService
             {
                 queueId = $"queue={queueId}&";
             }
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?{"startTime=" + startTime + "&"}{"endTime=" + endTime + "&"}{queueId}start=0&count={countEnd}&api_key=RGAPI-55ad8b62-8ade-4bf6-ac58-7261f23d15e3");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?{"startTime=" + startTime + "&"}{"endTime=" + endTime + "&"}{queueId}start=0&count={countEnd}&api_key=RGAPI-91b0168e-bc39-4e92-858f-1be72f735fdf");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");

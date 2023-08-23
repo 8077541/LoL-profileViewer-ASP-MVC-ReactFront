@@ -32,5 +32,13 @@ namespace app.Controllers
             return Ok(await _matchService.getMatchId(puuid, region, queueId, countStart, countEnd, startTime, endTime));
 
         }
+
+        [HttpGet("/LiveMatch")]
+        public async Task<ActionResult<CurrentGameInfo>> getLiveMatch(string summonerId, string region)
+        {
+            return Ok(await _matchService.getLiveMatch(summonerId, region));
+
+        }
+
     }
 }

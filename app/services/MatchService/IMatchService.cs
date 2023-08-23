@@ -8,6 +8,7 @@ namespace app.services.MatchService
 {
     public interface IMatchService
     {
+        Task<ActionResult<CurrentGameInfo>> getLiveMatch(string summonerId, string region);
         Task<ActionResult<Match>> getMatchDetails(string matchId);
         Task<List<string>> getMatchId(string puuid, string region, string queueId = "", string countStart = "0", string countEnd = "20", string startTime = "", string endTime = "");
     }
