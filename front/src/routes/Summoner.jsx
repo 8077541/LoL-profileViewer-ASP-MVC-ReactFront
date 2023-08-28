@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import "./Summoner.css";
 import Match from "../components/Match";
 import Home from "./Home";
+import SearchBar from "../components/SearchBar";
 
 const api = axios.create({
   baseURL: "http://localhost:5191/",
@@ -52,6 +53,7 @@ const Summoner = () => {
   }
   return (
     <div>
+      <SearchBar></SearchBar>
       <div id="main">
         <div id="firstBox">
           <div id="summonerIconAndLevelBox">

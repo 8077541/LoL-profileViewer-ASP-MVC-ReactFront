@@ -15,7 +15,7 @@ namespace app.services.MatchService
         public async Task<ActionResult<CurrentGameInfo>> getLiveMatch(string summonerId, string region)
         {
 
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/{summonerId}");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/{summonerId}?api_key=RGAPI-69e7a11d-004e-406b-86b0-2f439c81d763");
             var json = await response.Content.ReadAsStringAsync();
             var match = JsonConvert.DeserializeObject<CurrentGameInfo>(json);
             Console.WriteLine(match.gameType);
@@ -39,7 +39,7 @@ namespace app.services.MatchService
             }
 
 
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}?api_key=RGAPI-91b0168e-bc39-4e92-858f-1be72f735fdf");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/{matchId}?api_key=RGAPI-69e7a11d-004e-406b-86b0-2f439c81d763");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");
@@ -73,7 +73,7 @@ namespace app.services.MatchService
             {
                 queueId = $"queue={queueId}&";
             }
-            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?{"startTime=" + startTime + "&"}{"endTime=" + endTime + "&"}{queueId}start=0&count={countEnd}&api_key=RGAPI-91b0168e-bc39-4e92-858f-1be72f735fdf");
+            var response = await _httpClient.GetAsync($"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?{"startTime=" + startTime + "&"}{"endTime=" + endTime + "&"}{queueId}start=0&count={countEnd}&api_key=RGAPI-69e7a11d-004e-406b-86b0-2f439c81d763");
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 throw new Exception("Summoner not found");

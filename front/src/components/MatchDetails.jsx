@@ -19,7 +19,7 @@ const MatchDetails = ({
       style={{ display: "none", marginLeft: "1em" }}
     >
       <tr id="tableHeaders">
-        <th></th>
+        <th>Champion</th>
         <th>Summoner Name</th>
         <th>Kda</th>
         <th>Cs</th>
@@ -37,13 +37,14 @@ const MatchDetails = ({
                 : { backgroundColor: "#462129" }
             }
           >
-            <td>
+            <td id="champAndLevel">
               <img
                 id="playerChamp"
                 src={`https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/${player.championId}.png`}
                 alt="Character Portrait"
                 title={player.championName}
               ></img>
+              <span>{player.champLevel}Lv.</span>
             </td>
             <td id="tableD">
               {" "}
