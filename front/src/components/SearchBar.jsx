@@ -11,16 +11,16 @@ const Home = () => {
   function toggleVisibility(e) {
     const x = document.getElementById("regionOptionsTwo");
     e.preventDefault();
-    if (x.style.visibility === "hidden") {
-      x.style.visibility = "visible";
-    } else x.style.visibility = "hidden";
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else x.style.display = "none";
   }
   function changeRegion(e) {
     e.preventDefault();
     setRegion(e.target.innerText);
     const x = document.getElementById("regionSelectorTwo");
     x.innerText = e.target.innerText;
-    document.getElementById("regionOptionsTwo").style.visibility = "hidden";
+    document.getElementById("regionOptionsTwo").style.display = "none";
     x.style.backgroundColor = e.target.name;
   }
   function handleSubmit(e) {

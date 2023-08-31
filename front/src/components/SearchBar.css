@@ -65,12 +65,11 @@ select {
   outline: none;
 }
 #regionOptionsTwo {
-  visibility: hidden;
-  margin: 1em;
-
+  display: none;
+  text-align: center;
   justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
+  margin: auto;
+  margin: 1em;
 }
 #regionOptionsTwo button {
   margin-right: 1em;

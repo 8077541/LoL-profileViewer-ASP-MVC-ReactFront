@@ -132,7 +132,7 @@ const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
       ]);
       i.summonerSpellName1 = summonerSpell(i.summoner1Id);
       i.summonerSpellName2 = summonerSpell(i.summoner2Id);
-      if (mainSummonerName === i.summonerName) {
+      if (mainSummonerName.toLowerCase() === i.summonerName.toLowerCase()) {
         setSummoner(i);
         console.log(i);
       }
@@ -220,6 +220,9 @@ const Match = ({ matchId, mainSummonerName, runes, items, region }) => {
   }, []);
 
   if (loading) {
+    return <div></div>;
+  }
+  if (!summoner) {
     return <div></div>;
   }
 
